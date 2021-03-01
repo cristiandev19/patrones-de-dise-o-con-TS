@@ -42,3 +42,5 @@ class BudgetKnifeStore extends KnifeStore {
 
 }
 
+class BudgetSteakKnife extends Knife {}
+class BudgetChefsKnife extends Knife {}
