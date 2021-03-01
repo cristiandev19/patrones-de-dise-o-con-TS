@@ -2,6 +2,19 @@ interface WebRequester {
   request(object: any): number;
 }
 
+class WebService {
+  constructor(
+    private webHost: string
+  ) {}
+
+  async request() {
+    const response = await fetch(this.webHost, {
+      "method": "GET",
+    });
+    return response;
+  }
+}
+
 class WebAdapter implements WebRequester {
   private service: WebService;
 
@@ -11,7 +24,7 @@ class WebAdapter implements WebRequester {
 
   request(request: any): number {
     let result = this.toJson(request);
-    let response = service.request()
+    let response = this.service.request()
     if (!response) {
       return 200;
     }
@@ -40,5 +53,17 @@ class WebClient {
       console.log('NOT OK');
     }
     return;
+  }
+}
+
+class Program {
+  constructor() {
+    const webHost: string = 'www.google.com';
+    const service = new WebService(webHost);
+    const adapter = new WebAdapter();
+    adapter.connect(service);
+    const client = new WebClient(adapter);
+    client.doWork();
+
   }
 }
